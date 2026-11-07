@@ -1,0 +1,16 @@
+{
+  "name": "Advocate Somkant Verma — High Court of Chhattisgarh",
+  "short_name": "Adv. Somkant Verma",
+  "description": "Senior Advocate at High Court of Chhattisgarh, Bilaspur specializing in Service Matters (WPS) and Civil Writ Petitions (WPC).",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#070b14",
+  "theme_color": "#d4af37",
+  "icons": [
+    {
+      "src": "somkant-verma.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
