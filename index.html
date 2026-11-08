@@ -20,7 +20,10 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&amp;family=Noto+Sans+Devanagari:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+  <!-- Non-render-blocking font load (page paints instantly with system font, then swaps) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&amp;family=Noto+Sans+Devanagari:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&amp;family=Noto+Sans+Devanagari:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&amp;family=Noto+Sans+Devanagari:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" /></noscript>
 
   <!-- Preload Hero Portrait -->
   <link rel="preload" as="image" type="image/webp" href="assets/somkant-verma-advocate-480.webp" imagesrcset="assets/somkant-verma-advocate-480.webp 480w, assets/somkant-verma-advocate-768.webp 768w" imagesizes="(max-width: 1024px) 460px, 480px" fetchpriority="high" />
@@ -28,7 +31,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23050811'/%3E%3Cpath d='M32 10v38M16 20h32M20 48h24' stroke='%23e5c158' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M16 20l-6 14h12l-6-14zm32 0l-6 14h12l-6-14z' fill='%23e5c158'/%3E%3C/svg%3E" />
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=5" />
+  <link rel="stylesheet" href="styles.css?v=6" />
 
   <!-- Schema.org Structured Data -->
   <script type="application/ld+json">
@@ -775,6 +778,6 @@
     <span>↑</span>
   </button>
 
-  <script src="app.js?v=5" defer></script>
+  <script src="app.js?v=6" defer></script>
 </body>
 </html>

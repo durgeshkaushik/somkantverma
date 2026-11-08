@@ -72,7 +72,48 @@ document.addEventListener("DOMContentLoaded", () => {
   initFaqAccordion();
   initShareAndVcard();
   initScrollAndSpotlight();
+  initScrollReveal();
 });
+
+/* 14. Ultra-smooth scroll reveal (GPU transform + opacity only) */
+function initScrollReveal() {
+  if (!("IntersectionObserver" in window)) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const targets = Array.from(
+    document.querySelectorAll("main section:not(.hero) .section-header, main section:not(.hero) .liquid-glass, main section:not(.hero) .faq-item")
+  ).filter(el => !el.parentElement.closest(".liquid-glass, .faq-item"));
+  if (!targets.length) return;
+
+  document.documentElement.classList.add("js-reveal");
+
+  // Stagger siblings that enter together
+  targets.forEach(el => {
+    const siblings = Array.from(el.parentElement.children).filter(c => targets.includes(c));
+    const i = siblings.indexOf(el);
+    el.style.setProperty("--rd", `${Math.min(i, 4) * 80}ms`);
+    el.classList.add("reveal");
+  });
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      io.unobserve(el);
+      el.classList.add("in");
+      // Hand control back to the element's own hover transitions afterwards
+      const done = e => {
+        if (e.target !== el || e.propertyName !== "transform") return;
+        el.removeEventListener("transitionend", done);
+        el.classList.remove("reveal", "in");
+        el.style.removeProperty("--rd");
+      };
+      el.addEventListener("transitionend", done);
+    });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+
+  targets.forEach(el => io.observe(el));
+}
 
 /* 1. Mobile Navigation Menu */
 function initMobileMenu() {
@@ -532,6 +573,9 @@ function initScrollAndSpotlight() {
   const toTop = document.getElementById("toTopBtn");
   const ring = document.getElementById("toTopRing");
   const CIRC = 2 * Math.PI * 21;
+  const navbar = document.getElementById("navbar");
+  const navLinks = document.getElementById("navLinks");
+  let lastY = window.scrollY;
   let ticking = false;
 
   function updateScroll() {
@@ -541,6 +585,18 @@ function initScrollAndSpotlight() {
     if (bar) bar.style.transform = `scaleX(${p})`;
     if (ring) ring.style.strokeDashoffset = String(CIRC * (1 - p));
     if (toTop) toTop.classList.toggle("show", y > 500);
+
+    // Apple-style: glass navbar slides away while reading, returns on scroll-up
+    if (navbar) {
+      const menuOpen = navLinks && navLinks.classList.contains("active");
+      const delta = y - lastY;
+      if (menuOpen || y < 160 || delta < -6) {
+        navbar.classList.remove("nav-hidden");
+      } else if (delta > 6) {
+        navbar.classList.add("nav-hidden");
+      }
+      if (Math.abs(delta) > 6) lastY = y;
+    }
     ticking = false;
   }
 
